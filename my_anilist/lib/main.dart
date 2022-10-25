@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
       title: 'MyAnimeList',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-         //Anilist Cores
-         //0xFF242538 Preto
+        //Anilist Cores
+        //0xFF242538 Preto
         //237,241,245,0 Cor Cinza
       ),
       home: const MyAnimeListHomePage(),

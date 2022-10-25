@@ -8,6 +8,4 @@ class Anime extends ChangeNotifier {
   final String description;
 
   Anime(this.id, this.nativeTitle, this.englishTitle, this.image, this.description);
-
-  
 }
