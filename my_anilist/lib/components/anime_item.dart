@@ -2,44 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AnimeItem extends StatelessWidget {
-  const AnimeItem({super.key});
+  final String image;
+  final String englishTitle;
+  final String nativeTitle;
+  final String description;
+
+  const AnimeItem(this.image, this.englishTitle, this.nativeTitle, this.description, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: Colors.black26,
-          ),
-          width: 80,
-          height: 100,
-          child: Center(
-          child: Text(
-            "No Image", 
-            style: GoogleFonts.nunito(
-              color: Colors.black, 
-              fontWeight: FontWeight.bold)),
-          ),
-        ),
-        const SizedBox(width: 15),
-        Column(
+    return Card(
+      child: ListTile(
+        tileColor: Colors.white10,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Título do anime",
-              style: GoogleFonts.nunito(color: Colors.black),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black26,
+              ),
+              //width: 0,
+              //height: 0,
+              child: Center(
+                child: Image.network(image, fit: BoxFit.cover, width: 80,)),
             ),
-            Text(
-              "Descrição",
-              style: GoogleFonts.nunito(color: Colors.black),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: Column(
+                children: [
+                  Text(
+                    englishTitle.isEmpty ? "Não possui" : englishTitle,
+                    style: GoogleFonts.nunito(color: Colors.black),
+                  ),
+                  Text(
+                    nativeTitle.isEmpty ? "Não possui" : nativeTitle,
+                    style: GoogleFonts.nunito(color: Colors.black),
+                  ),
+                ],
+              ),
             ),
+            //AnimeItem(),
           ],
         ),
-        
-      ],
+      ),
     );
   }
 }

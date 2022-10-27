@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:my_anilist/components/anime_item.dart';
 import 'package:my_anilist/controller/animeSearch.dart';
 
 class MyAnimeListHomePage extends StatefulWidget {
@@ -11,7 +12,7 @@ class MyAnimeListHomePage extends StatefulWidget {
 }
 
 class _MyAnimeListHomePageState extends State<MyAnimeListHomePage> {
-  Icon customIcon = Icon(Icons.search);
+  Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = Text(
     "MyAnimeList",
     style: GoogleFonts.nunito(
@@ -20,7 +21,22 @@ class _MyAnimeListHomePageState extends State<MyAnimeListHomePage> {
     ),
   );
   TextEditingController searchController = TextEditingController();
-  String animeQuery = "";
+  String animeQuery = """
+query {
+  Page {
+    media(search: " ", type: ANIME) {
+      id
+      coverImage {
+        large
+      }
+      description
+      title {
+        english
+        native
+        }  
+      }
+    }
+  }""";
 
   @override
   Widget build(BuildContext context) {
@@ -80,102 +96,17 @@ class _MyAnimeListHomePageState extends State<MyAnimeListHomePage> {
           }
 
           List animes = result.data!["Page"]["media"];
-
+          
           return ListView.builder(
               itemCount: animes.length,
               itemBuilder: (context, index) {
-                final titulo = animes[index]["description"];
-                return Card(
-                  child: ListTile(
-                    tileColor: Colors.purple[300],
-                    title: Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black26,
-                          ),
-                          width: 80,
-                          height: 100,
-                          child: Center(
-                            child: Text(titulo,
-                                style: GoogleFonts.nunito(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        Column(
-                          children: [
-                            Text(
-                              "Título do anime",
-                              style: GoogleFonts.nunito(color: Colors.black),
-                            ),
-                            Text(
-                              "Descrição",
-                              style: GoogleFonts.nunito(color: Colors.black),
-                            ),
-                          ],
-                        ),
-                        //AnimeItem(),
-                      ],
-                    ),
-                  ),
-                );
+                final image = animes[index]["coverImage"]["large"]?? "" ;
+                final englishTitle = animes[index]["title"]["english"]?? "";
+                final nativeTitle = animes[index]["title"]["native"]?? "";
+                final description = animes[index]["description"]?? "";
+                return AnimeItem(image, englishTitle, nativeTitle, description);
               });
         },
-        /*FutureBuilder<List<dynamic>>(
-            future: fetchAnimesData(),
-            builder: (context, snapshot) {
-              var data = snapshot.data;
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return ListView.builder(
-                itemCount: animes.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      tileColor: Colors.purple[300],
-                      title: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.black26,
-                            ),
-                            width: 80,
-                            height: 100,
-                            child: Center(
-                              child: Text("No Image",
-                                  style: GoogleFonts.nunito(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                          ),
-                          const SizedBox(width: 15),
-                          Column(
-                            children: [
-                              Text(
-                                "Título do anime",
-                                style: GoogleFonts.nunito(color: Colors.black),
-                              ),
-                              Text(
-                                "Descrição",
-                                style: GoogleFonts.nunito(color: Colors.black),
-                              ),
-                            ],
-                          ),
-                          //AnimeItem(),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            }),*/
       ),
     );
   }
