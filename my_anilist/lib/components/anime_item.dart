@@ -4,9 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 class AnimeItem extends StatelessWidget {
   const AnimeItem({super.key});
 
-  //final Image animePhoto;
-  //final String animeTitle;
-
   @override
   Widget build(BuildContext context) {
     return Row(
