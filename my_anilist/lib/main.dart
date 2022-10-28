@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           //0xFF242538 Preto
           //237,241,245,0 Cor Cinza
         ),
-        home: const MyAnimeListHomePage(),
+        home: MyAnimeListHomePage(),
       ),
     );
   }

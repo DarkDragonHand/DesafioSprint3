@@ -24,7 +24,7 @@ class _MyAnimeListHomePageState extends State<MyAnimeListHomePage> {
   String animeQuery = """
 query {
   Page {
-    media(search: " ", type: ANIME) {
+    media(search: "Dragon ball", type: ANIME) {
       id
       coverImage {
         large
@@ -54,10 +54,9 @@ query {
                     controller: searchController,
                     textInputAction: TextInputAction.go,
                     decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Search Anime",
-                      hintStyle: TextStyle(color: Colors.grey)
-                    ),
+                        border: InputBorder.none,
+                        hintText: "Search Anime",
+                        hintStyle: TextStyle(color: Colors.grey)),
                     style: GoogleFonts.nunito(
                       color: Colors.white,
                       fontSize: 16,
@@ -95,15 +94,14 @@ query {
           if (result.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-
           List animes = result.data!["Page"]["media"];
           return ListView.builder(
               itemCount: animes.length,
               itemBuilder: (context, index) {
-                final image = animes[index]["coverImage"]["large"]?? "" ;
-                final englishTitle = animes[index]["title"]["english"]?? "";
-                final nativeTitle = animes[index]["title"]["native"]?? "";
-                final description = animes[index]["description"]?? "";
+                final image = animes[index]["coverImage"]["large"] ?? "";
+                final englishTitle = animes[index]["title"]["english"] ?? "";
+                final nativeTitle = animes[index]["title"]["native"] ?? "";
+                final description = animes[index]["description"] ?? "";
                 return AnimeItem(image, englishTitle, nativeTitle, description);
               });
         },
@@ -111,3 +109,4 @@ query {
     );
   }
 }
+
