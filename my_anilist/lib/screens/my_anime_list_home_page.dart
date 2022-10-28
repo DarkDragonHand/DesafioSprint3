@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:my_anilist/components/anime_item.dart';
-import 'package:my_anilist/controller/animeSearch.dart';
+import 'package:my_anilist/controller/anime_Search.dart';
 
 class MyAnimeListHomePage extends StatefulWidget {
   const MyAnimeListHomePage({super.key});
@@ -49,13 +49,14 @@ query {
             onPressed: () {
               setState(() {
                 if (customIcon.icon == Icons.search) {
-                  customIcon == const Icon(Icons.cancel);
+                  //customIcon = const Icon(Icons.cancel);
                   customSearchBar = TextField(
                     controller: searchController,
                     textInputAction: TextInputAction.go,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: "Search Anime",
+                      hintStyle: TextStyle(color: Colors.grey)
                     ),
                     style: GoogleFonts.nunito(
                       color: Colors.white,
@@ -96,7 +97,6 @@ query {
           }
 
           List animes = result.data!["Page"]["media"];
-          
           return ListView.builder(
               itemCount: animes.length,
               itemBuilder: (context, index) {
